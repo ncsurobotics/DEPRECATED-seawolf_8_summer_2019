@@ -1,0 +1,7 @@
+string name
+string value
+---
+# return old value
+string value
+string type
+bool error

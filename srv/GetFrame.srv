@@ -1,0 +1,5 @@
+string name
+---
+sensor_msgs/Image image
+bool error
+string errorMessage

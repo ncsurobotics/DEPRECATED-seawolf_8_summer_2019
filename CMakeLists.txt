@@ -55,11 +55,13 @@ add_message_files(
 )
 
 ## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
+add_service_files(
+  FILES
+  GetStat.srv
+  SetStat.srv
+  PostFrame.srv
+  GetFrame.srv
+)
 
 ## Generate actions in the 'action' folder
 # add_action_files(

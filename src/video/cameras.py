@@ -12,7 +12,12 @@ import rospy
 import cv2
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
-from cv_bridge import CvBridge, CvBridgeError
+import sys
+# import from parent directory
+sys.path.append('../')
+import video
+import stats
+import time
 
 import numpy as np
 import cv2
@@ -30,27 +35,21 @@ def startCams():
 
 def publishCamsForever(streams):
   # used to send out images from the camera
-  publisher = rospy.Publisher("camera", StoreImage, queue_size=10)
+  #publisher = rospy.Publisher("frame_post", StoreImage, queue_size=10)
 
-  # used to convert between opencv images and ros images
-  bridge = CvBridge()
+  videoStoreConnection = video.connect()
+  statsConnection = stats.connect()
+  #frameRate = statsConnection.get('cameraRate')
+  frameRate = 0
 
   while(True):
       # Capture frame
       for name in streams:
         cap = streams[name]
         ret, frame = cap.read()
-        try:
-          # convert cv image to ros image
-          ros_image = bridge.cv2_to_imgmsg(frame, "bgr8")
-          store_image = StoreImage()
-          store_image.name = name
-          store_image.image = ros_image
-          # send out the image
-          publisher.publish(store_image)
-        except CvBridgeError as e:
-          print(e)
-          print('Error converting CV image to ROS')
+        videoStoreConnection.postFrame(name, frame)
+        time.sleep(frameRate)
+        
 
 def main(args):
   rospy.init_node('cameras', anonymous=True)
