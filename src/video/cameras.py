@@ -28,8 +28,11 @@ from seawolf_8.msg import StoreImage
 def startCams():
   streams = {}
   streams['front'] = cv2.VideoCapture(0)
+  
   # uncomment this line so to enable second camera
   #streams['down'] = cv2.VideoCapture(1)
+  # delete this line, right now its just copying the front frame
+  streams['down'] = streams['front']
   return streams
 
 

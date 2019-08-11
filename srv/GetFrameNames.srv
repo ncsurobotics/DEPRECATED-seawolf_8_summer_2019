@@ -1,0 +1,5 @@
+---
+# This is very jenky, but here all the names are returned as comma separated values
+# This should return an array of strings, but the author was not able to figure out how to return this
+# If possible, please replace this with an array of strings
+string names

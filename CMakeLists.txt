@@ -59,8 +59,9 @@ add_service_files(
   FILES
   GetStat.srv
   SetStat.srv
-  PostFrame.srv
   GetFrame.srv
+  PostFrame.srv
+  GetFrameNames.srv
 )
 
 ## Generate actions in the 'action' folder

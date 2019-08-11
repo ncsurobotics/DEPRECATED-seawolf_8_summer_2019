@@ -3,7 +3,7 @@ Client to interact with video store. Can post and fetch images stored by name.
 """
 
 import rospy
-from seawolf_8.srv import GetFrame, PostFrame
+from seawolf_8.srv import GetFrame, PostFrame, GetFrameNames
 from cv_bridge import CvBridge, CvBridgeError
 
 class VideoStoreClient:
@@ -11,6 +11,7 @@ class VideoStoreClient:
   def __init__(self):
     self.post_frame = rospy.ServiceProxy('post_frame', PostFrame, persistent=True)
     self.get_frame = rospy.ServiceProxy('get_frame', GetFrame, persistent=True)
+    self.get_frame_names = rospy.ServiceProxy('get_frame_names', GetFrameNames, persistent=True)
 
     # used to convert between opencv images and ros images
     self.bridge = CvBridge()
@@ -50,7 +51,18 @@ class VideoStoreClient:
       raise Exception(resp.errorMessage)
     return
 
-  #def getAllFrameNames
+  """
+  Get the names of all frames on the node.
+  """
+  def getFrameNames(self):
+    resp = self.get_frame_names()
+    return resp.names.split(',')
+
+  """
+  Remove all name frame pairs off the node.
+  """
+  def clearFrames():
+    pass
 
 def connect():
   return VideoStoreClient()

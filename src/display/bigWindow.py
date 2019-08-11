@@ -1,7 +1,9 @@
 import cv2
 import numpy as np
 
-def displayWindows(names, images, widthLimit):
+def displayWindows(names, images, widthLimit=1000):
+  if len(names) == 0:
+    return
   images2DArray = []
   row = []
   rowWidth = 0
@@ -21,9 +23,11 @@ def displayWindows(names, images, widthLimit):
   height = len(images2DArray) * h
   width = len(images2DArray[0]) * w
   windowImage = np.zeros((height,width,3), np.uint8)
+  nameIndex = 0
   for i in range(len(images2DArray)):
     row = images2DArray[i]
     for j in range(len(row)):
       windowImage[h * i:h * i + h, w * j:w * j + w] = img[::]
-      cv2.putText(windowImage, names[i], (w * j, h * i + 22), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,255), 1, 8)
+      cv2.putText(windowImage, names[nameIndex], (w * j, h * i + 22), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,255), 1, 8)
+      nameIndex += 1
   cv2.imshow('Window', windowImage)

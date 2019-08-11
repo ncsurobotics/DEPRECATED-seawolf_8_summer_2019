@@ -38,7 +38,11 @@ Runs the shell command in the background.
 def startBackgroundProcess(command):
   subprocess.Popen(command.split(' '), stdout=subprocess.PIPE)
 
-startBackgroundProcess( "roscore")
+try:
+  startBackgroundProcess( "roscore")
+except Exception as e:
+  # master node may have already started (can't call roscore twice)
+  pass
 # check that master node has started
 if not hasNodeStarted('rosout'):
   raise Exception('Could not start master node')
@@ -54,11 +58,13 @@ startBackgroundProcess('python2 cameras.py')
 if not hasNodeStarted('cameras'):
   raise Exception('Could not start cameras node')
 
+"""
 # start display nodes
 chdir('../display')
 startBackgroundProcess('python watch.py')
 if not hasNodeStarted('watch'):
   raise Exception('Could not start watch node')
+"""
 
 # start dashboard for viewing all nodes
 system('rosrun node_manager_fkie node_manager')

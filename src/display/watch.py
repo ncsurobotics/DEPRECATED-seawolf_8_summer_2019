@@ -8,14 +8,17 @@ import cv2
 import time
 
 rospy.init_node('watch', anonymous=True)
-
 videoConnection = video.connect()
 
 while True:
+  names = videoConnection.getFrameNames()
+  frames = []
   try:
-    frame = videoConnection.getFrame('front')
-    cv2.imshow("Image window", frame)
-    cv2.waitKey(3)
-  except Exception as e:
-    time.sleep(1)
+    for name in names:
+      frames.append(videoConnection.getFrame(name))
+  except:
     pass
+  else:
+    bigWindow.displayWindows(names, frames)
+  if cv2.waitKey(1) & 0xFF == ord('q'):
+    break
